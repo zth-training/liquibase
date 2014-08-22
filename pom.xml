@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>hu.zerotohero</groupId>
+	<artifactId>zth-liquibase</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>zth-liquibase</name>
+	<url>http://www.zerotohero.hu</url>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<liquibase.version>3.2.0</liquibase.version>
+		<mysql.version>5.1.26</mysql.version>
+
+	</properties>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<configuration>
+					<changeLogFile>src/main/resources/db/changelog.xml</changeLogFile>
+					<driver>com.mysql.jdbc.Driver</driver>
+<!-- 					Ha az adatbázisod nem a localhost-on van, tehát a saját gépeden, akkor a localhost-ot cseréld ki -->
+<!-- 					Ha az adatbázisod nem test néven elérhető, akkor az adatbázisod nevére cseréld ki a test - t -->
+					<url>jdbc:mysql://localhost/test</url>
+<!-- 					Cseréld ki a felhasználónevet és a jelszót, ha nem test/test :) -->
+					<username>test</username>
+					<password>test</password>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>update</goal>
+						</goals>
+
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquibase.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+		</dependency>
+
+	</dependencies>
+</project>
